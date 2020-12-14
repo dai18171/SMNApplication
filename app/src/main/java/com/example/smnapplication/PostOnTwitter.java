@@ -30,8 +30,8 @@ public class PostOnTwitter {
         config.getConfiguration();
         AsyncTwitterFactory factory = new AsyncTwitterFactory();
         AsyncTwitter twitter = factory.getInstance();
-        twitter.setOAuthConsumer("Tm4gZfXCRucNY22urfG8pbr5a", "07KU1IObGDiRDdkXdjGwoa865aOvXPSrgz3avgh1XUSNmMLAgq");
-        twitter.setOAuthAccessToken(new AccessToken("1328369885362196486-TSlqt87Syy7l478N98pNYuJ1VN9HiP","2tXCV46OV78xyaz2hwtMCmHgOmPeayeYr6phl3Tx2fw7x"));
+        twitter.setOAuthConsumer("TWITTER_API_KEY", "TWITTER_SECRET_KEY");
+        twitter.setOAuthAccessToken(new AccessToken("TWITTER_TOKEN","TWITTER_SECRET_TOKEN"));
         twitter.addListener(new TwitterAdapter(){
             @Override public void updatedStatus(Status status) {
                 Log.d(TAG, "The post is up");
