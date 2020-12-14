@@ -26,12 +26,10 @@ public class PostOnTwitter {
 
 
     public void postOnTwitter(String message, File file){
-        GetConfiguration config = new GetConfiguration();
-        config.getConfiguration();
-        AsyncTwitterFactory factory = new AsyncTwitterFactory();
-        AsyncTwitter twitter = factory.getInstance();
-        twitter.setOAuthConsumer("Tm4gZfXCRucNY22urfG8pbr5a", "07KU1IObGDiRDdkXdjGwoa865aOvXPSrgz3avgh1XUSNmMLAgq");
-        twitter.setOAuthAccessToken(new AccessToken("1328369885362196486-TSlqt87Syy7l478N98pNYuJ1VN9HiP","2tXCV46OV78xyaz2hwtMCmHgOmPeayeYr6phl3Tx2fw7x"));
+
+        GetAsyncTwitterInstance asyncPostInstance = new GetAsyncTwitterInstance();
+        AsyncTwitter twitter = asyncPostInstance.getAsyncTwitterInstance();
+        //Listener
         twitter.addListener(new TwitterAdapter(){
             @Override public void updatedStatus(Status status) {
                 Log.d(TAG, "The post is up");
@@ -45,6 +43,7 @@ public class PostOnTwitter {
                 }
             }
         });
+        //Update status
         StatusUpdate status = new StatusUpdate(message);
         status.setMedia(file);
         twitter.updateStatus(status);

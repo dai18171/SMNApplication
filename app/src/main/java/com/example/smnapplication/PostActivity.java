@@ -58,6 +58,10 @@ public class PostActivity extends AppCompatActivity {
 
         imagePreview = findViewById(R.id.imagePreview);
 
+        //Configuration
+        GetConfiguration config = new GetConfiguration();
+        config.getConfiguration();
+
         //Listeners
         buttonMakePost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +80,7 @@ public class PostActivity extends AppCompatActivity {
         buttonPickImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Check runtime persmission
+                //Check runtime permission
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_DENIED) {
                     //Permission not granted, you need to request
