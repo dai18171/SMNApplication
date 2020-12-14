@@ -13,10 +13,10 @@ public class GetConfiguration {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setUserStreamRepliesAllEnabled(true);
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("Tm4gZfXCRucNY22urfG8pbr5a")
-                .setOAuthConsumerSecret("07KU1IObGDiRDdkXdjGwoa865aOvXPSrgz3avgh1XUSNmMLAgq")
-                .setOAuthAccessToken("1328369885362196486-TSlqt87Syy7l478N98pNYuJ1VN9HiP")
-                .setOAuthAccessTokenSecret("2tXCV46OV78xyaz2hwtMCmHgOmPeayeYr6phl3Tx2fw7x");
+                .setOAuthConsumerKey("TWITTER_API_KEY")
+                .setOAuthConsumerSecret("TWITTER_SECRET_KEY")
+                .setOAuthAccessToken("TWITTER_TOKEN")
+                .setOAuthAccessTokenSecret("TWITTER_SECRET_TOKEN");
         Log.d(TAG, "Successful Configuration");
     }
 }
