@@ -1,12 +1,12 @@
 package com.example.smnapplication;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -17,23 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.AsyncTwitter;
-import twitter4j.AsyncTwitterFactory;
 import twitter4j.HashtagEntity;
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Status;
-import twitter4j.Trend;
 import twitter4j.Trends;
-import twitter4j.Twitter;
 import twitter4j.TwitterAdapter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.TwitterMethod;
-import twitter4j.auth.AccessToken;
 
 import static twitter4j.TwitterMethod.PLACE_TRENDS;
 import static twitter4j.TwitterMethod.SEARCH;
-import static twitter4j.TwitterMethod.UPDATE_STATUS;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -55,10 +48,9 @@ public class SearchActivity extends AppCompatActivity {
         searchTxt = findViewById(R.id.searchTxt);
         hashtagList = findViewById(R.id.hashtagList);
 
-        //Configuration
-        GetConfiguration config = new GetConfiguration();
-        config.getConfiguration();
 
+        //Listeners
+        //Button for getting keyword hashtagas
         buttonSearchHashtag.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -132,6 +124,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        //Button for getting trending hashtags
         fillTrendingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,6 +185,26 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+
+        //Handle click event in ListView
+        hashtagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
+                Log.d(TAG, "Entering showing posts activity");
+
+                //Hashtag in the clicked item
+                String hashtagToSearch = adapter.getItem(position);
+
+                //Start showing posts activity
+                intent = new Intent(SearchActivity.this, ShowPostsActivity.class);
+                intent.putExtra("searchingHashtag", hashtagToSearch);
+                if (intent != null){
+                    startActivity(intent);
+                }
+            }
+        });
+
 
 
     }

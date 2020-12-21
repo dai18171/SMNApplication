@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = null;
 
         if (v.getId()==R.id.buttonPost){
-            Log.d(TAG, "Entered posting activity");
+            Log.d(TAG, "Entering posting activity");
             intent = new Intent(this, PostActivity.class);
         }
         else if (v.getId()==R.id.buttonSearch){
-            Log.d(TAG, "Entered sharing activity");
+            Log.d(TAG, "Entering sharing activity");
             intent = new Intent(this, SearchActivity.class);
         }
 

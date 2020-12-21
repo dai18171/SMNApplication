@@ -58,10 +58,6 @@ public class PostActivity extends AppCompatActivity {
 
         imagePreview = findViewById(R.id.imagePreview);
 
-        //Configuration
-        GetConfiguration config = new GetConfiguration();
-        config.getConfiguration();
-
         //Listeners
         buttonMakePost.setOnClickListener(new View.OnClickListener() {
             @Override
