@@ -22,6 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import org.json.JSONException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -39,6 +42,7 @@ public class PostActivity extends AppCompatActivity {
     private static final String TAG = "Twitter";
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int PERMISSION_CODE_IMAGE = 1000;
+    private static String filePath;
     private static File file;
 
     ImageView imagePreview;
@@ -62,10 +66,18 @@ public class PostActivity extends AppCompatActivity {
         buttonMakePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Making a post for twitter
                 String message = inputText.getText().toString();
+                //Making a post for twitter
                 PostOnTwitter aTwitterPost = new PostOnTwitter();
                 aTwitterPost.postOnTwitter(message, file);
+
+                //Making a post for facebook
+                PostOnFacebook aFacebookPost = new PostOnFacebook();
+                try {
+                    aFacebookPost.postOnFacebook(message, filePath);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 //Showing progress
                 Toast.makeText(PostActivity.this, "Uploading your post.", Toast.LENGTH_SHORT).show();
@@ -115,9 +127,8 @@ public class PostActivity extends AppCompatActivity {
             Cursor cursor = getContentResolver().query(imageUri, filepath, null,
                     null, null);
             cursor.moveToFirst();
-
             int columnIndex = cursor.getColumnIndex(filepath[0]);
-            String filePath = cursor.getString(columnIndex);
+            filePath = cursor.getString(columnIndex);
             cursor.close();
             file = new File(filePath);
             Log.d(TAG, "File seems fine");

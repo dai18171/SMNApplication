@@ -19,7 +19,7 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class CustomAdapter extends ArrayAdapter<RetrievedPosts> {
+public class CustomPostsAdapter extends ArrayAdapter<RetrievedPosts> {
 
     private static final String TAG = "Twitter";
 
@@ -27,7 +27,7 @@ public class CustomAdapter extends ArrayAdapter<RetrievedPosts> {
     private final int layoutResource;
     private final List<RetrievedPosts> posts;
 
-    public CustomAdapter(Context context,int resource, List<RetrievedPosts> objects) {
+    public CustomPostsAdapter(Context context, int resource, List<RetrievedPosts> objects) {
         super(context, resource, objects);
 
         inflater = LayoutInflater.from(context);
