@@ -8,6 +8,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -34,6 +35,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
@@ -86,9 +88,8 @@ public class PostActivity extends AppCompatActivity {
                     aFacebookPost.postOnFacebook(message, filePath);
                 }
                 if (instagramCheckBox.isChecked()) {
+                    //Making a post for Instagram
                     String type = "image/*";
-                    //String filename = filePath;
-                    //String mediaPath = Environment.getExternalStoragePublicDirectory(filename);
                     createInstagramIntent(type, filePath);
                 }
                 //Showing progress
@@ -166,6 +167,7 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
+    //Intent for posting on Instagram as its given in the documentation
     private void createInstagramIntent(String type, String mediaPath){
 
         // Create the new Intent using the 'Send' action.
@@ -186,6 +188,15 @@ public class PostActivity extends AppCompatActivity {
         share.putExtra(Intent.EXTRA_STREAM, imageUri);
 
         // Broadcast the Intent.
-        startActivity(Intent.createChooser(share, "shareto"));
+        //I dont really know why this works :)
+        Intent chooser = Intent.createChooser(share, "Share to");
+
+        List<ResolveInfo> resInfoList = this.getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            this.grantUriPermission(packageName, imageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        startActivity(chooser);
     }
 }
