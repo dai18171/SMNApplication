@@ -23,6 +23,7 @@ public class GetConfiguration {
                 .setOAuthConsumerSecret(TWITTER_SECRET_KEY)
                 .setOAuthAccessToken(TWITTER_TOKEN)
                 .setOAuthAccessTokenSecret(TWITTER_SECRET_TOKEN);
+        cb.setIncludeEntitiesEnabled(true);
         Log.d(TAG, "Successful Configuration");
     }
 }

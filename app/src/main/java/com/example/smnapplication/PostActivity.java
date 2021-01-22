@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,6 +58,8 @@ public class PostActivity extends AppCompatActivity {
         //Views (Buttons, Text etc.)
         Button buttonMakePost = findViewById(R.id.buttonMakePost);
         Button buttonPickImage = findViewById(R.id.buttonPickImage);
+        CheckBox twitterCheckBox = findViewById(R.id.twitterCheckBox);
+        CheckBox facebookCheckBox = findViewById(R.id.facebookCheckBox);
 
         EditText inputText = findViewById(R.id.inputText);
 
@@ -67,18 +70,17 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String message = inputText.getText().toString();
-                //Making a post for twitter
-                PostOnTwitter aTwitterPost = new PostOnTwitter();
-                aTwitterPost.postOnTwitter(message, file);
-
-                //Making a post for facebook
-                PostOnFacebook aFacebookPost = new PostOnFacebook();
-                try {
-                    aFacebookPost.postOnFacebook(message, filePath);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                //Cheking which checkboxes are checked
+                if (twitterCheckBox.isChecked()){
+                    //Making a post for twitter
+                    PostOnTwitter aTwitterPost = new PostOnTwitter();
+                    aTwitterPost.postOnTwitter(message, file);
                 }
-
+                if (facebookCheckBox.isChecked()){
+                    //Making a post for facebook
+                    PostOnFacebook aFacebookPost = new PostOnFacebook();
+                    aFacebookPost.postOnFacebook(message, filePath);
+                }
                 //Showing progress
                 Toast.makeText(PostActivity.this, "Uploading your post.", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Uploading the post");

@@ -3,6 +3,8 @@ package com.example.smnapplication;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import java.io.File;
 
 import twitter4j.AsyncTwitter;
@@ -25,7 +27,7 @@ public class PostOnTwitter {
     private static final String TAG = "Twitter";
 
 
-    public void postOnTwitter(String message, File file){
+    public void postOnTwitter(@Nullable String message, @Nullable File file){
 
         GetAsyncTwitterInstance asyncPostInstance = new GetAsyncTwitterInstance();
         AsyncTwitter twitter = asyncPostInstance.getAsyncTwitterInstance();
@@ -45,7 +47,9 @@ public class PostOnTwitter {
         });
         //Update status
         StatusUpdate status = new StatusUpdate(message);
-        status.setMedia(file);
+        if (file!=null){
+            status.setMedia(file);
+        }
         twitter.updateStatus(status);
     }
 
