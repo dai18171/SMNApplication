@@ -62,8 +62,8 @@
         android:id="@+id/twitterCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="32dp"
         android:text="Twitter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonMakePost" />
@@ -73,9 +73,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="100dp"
         android:text="Facebook"
         app:layout_constraintBaseline_toBaselineOf="@+id/twitterCheckBox"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/instagramCheckBox"
         app:layout_constraintStart_toEndOf="@+id/twitterCheckBox" />
+
+    <CheckBox
+        android:id="@+id/instagramCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:text="Instagram"
+        app:layout_constraintBaseline_toBaselineOf="@+id/facebookCheckBox"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

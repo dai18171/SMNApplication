@@ -2,6 +2,7 @@ package com.example.smnapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.Activity;
@@ -38,6 +39,8 @@ import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 import twitter4j.UploadedMedia;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 public class PostActivity extends AppCompatActivity {
 
     private static final String TAG = "Twitter";
@@ -60,6 +63,7 @@ public class PostActivity extends AppCompatActivity {
         Button buttonPickImage = findViewById(R.id.buttonPickImage);
         CheckBox twitterCheckBox = findViewById(R.id.twitterCheckBox);
         CheckBox facebookCheckBox = findViewById(R.id.facebookCheckBox);
+        CheckBox instagramCheckBox = findViewById(R.id.instagramCheckBox);
 
         EditText inputText = findViewById(R.id.inputText);
 
@@ -80,6 +84,12 @@ public class PostActivity extends AppCompatActivity {
                     //Making a post for facebook
                     PostOnFacebook aFacebookPost = new PostOnFacebook();
                     aFacebookPost.postOnFacebook(message, filePath);
+                }
+                if (instagramCheckBox.isChecked()) {
+                    String type = "image/*";
+                    //String filename = filePath;
+                    //String mediaPath = Environment.getExternalStoragePublicDirectory(filename);
+                    createInstagramIntent(type, filePath);
                 }
                 //Showing progress
                 Toast.makeText(PostActivity.this, "Uploading your post.", Toast.LENGTH_SHORT).show();
@@ -154,5 +164,28 @@ public class PostActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private void createInstagramIntent(String type, String mediaPath){
+
+        // Create the new Intent using the 'Send' action.
+        Intent share = new Intent(Intent.ACTION_SEND);
+
+        // Set the MIME type
+        share.setType(type);
+
+        // Create the URI from the media
+        File media = new File(mediaPath);
+        //Uri uri = Uri.fromFile(media);
+        Uri imageUri = FileProvider.getUriForFile(
+                PostActivity.this,
+                "com.example.smnapplication.provider",
+                media);
+
+        // Add the URI to the Intent.
+        share.putExtra(Intent.EXTRA_STREAM, imageUri);
+
+        // Broadcast the Intent.
+        startActivity(Intent.createChooser(share, "shareto"));
     }
 }
