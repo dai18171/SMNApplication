@@ -15,7 +15,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +37,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.StatusUpdate;
@@ -62,6 +65,7 @@ public class PostActivity extends AppCompatActivity {
 
         //Views (Buttons, Text etc.)
         Button buttonMakePost = findViewById(R.id.buttonMakePost);
+        Button buttonMakeStory = findViewById(R.id.buttonMakeStory);
         Button buttonPickImage = findViewById(R.id.buttonPickImage);
         CheckBox twitterCheckBox = findViewById(R.id.twitterCheckBox);
         CheckBox facebookCheckBox = findViewById(R.id.facebookCheckBox);
@@ -72,17 +76,38 @@ public class PostActivity extends AppCompatActivity {
         imagePreview = findViewById(R.id.imagePreview);
 
         //Listeners
+        buttonMakeStory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (facebookCheckBox.isChecked() && !instagramCheckBox.isChecked()){
+                    String type = "image/*";
+                    createPostStoryIntent(type, filePath, "com.facebook.katana");
+                }
+                else if (instagramCheckBox.isChecked() && !facebookCheckBox.isChecked()){
+                    String type = "image/*";
+                    createPostStoryIntent(type, filePath, "com.instagram.android");
+                }
+                else if (instagramCheckBox.isChecked() && facebookCheckBox.isChecked()){
+                    String type = "image/*";
+                    createPostStoryIntent(type, filePath, null);
+                }
+
+                Log.d(TAG, "Uploading story");
+            }
+        });
+
+
         buttonMakePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String message = inputText.getText().toString();
                 //Cheking which checkboxes are checked
-                if (twitterCheckBox.isChecked()){
+                if (twitterCheckBox.isChecked()) {
                     //Making a post for twitter
                     PostOnTwitter aTwitterPost = new PostOnTwitter();
                     aTwitterPost.postOnTwitter(message, file);
                 }
-                if (facebookCheckBox.isChecked()){
+                if (facebookCheckBox.isChecked()) {
                     //Making a post for facebook
                     PostOnFacebook aFacebookPost = new PostOnFacebook();
                     aFacebookPost.postOnFacebook(message, filePath);
@@ -90,7 +115,7 @@ public class PostActivity extends AppCompatActivity {
                 if (instagramCheckBox.isChecked()) {
                     //Making a post for Instagram
                     String type = "image/*";
-                    createInstagramIntent(type, filePath);
+                    createPostStoryIntent(type, filePath, "com.instagram.android");
                 }
                 //Showing progress
                 Toast.makeText(PostActivity.this, "Uploading your post.", Toast.LENGTH_SHORT).show();
@@ -103,14 +128,13 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Check runtime permission
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_DENIED) {
+                        == PackageManager.PERMISSION_DENIED) {
                     //Permission not granted, you need to request
                     Log.d(TAG, "Permission not granted. You need to request.");
                     String permissions[] = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
                     //Pop-up
                     requestPermissions(permissions, PERMISSION_CODE_IMAGE);
-                }
-                else{
+                } else {
                     //Permission already granted
                     Log.d(TAG, "Permission is already granted.");
                     pickImage();
@@ -131,12 +155,12 @@ public class PostActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == RESULT_LOAD_IMAGE){
+        if (resultCode == RESULT_OK && requestCode == RESULT_LOAD_IMAGE) {
             //Set image on imagePreview
             imageUri = data.getData();
             imagePreview.setImageURI(imageUri);
             Log.d(TAG, "Loading image preview");
-            String[] filepath = { MediaStore.Images.Media.DATA };
+            String[] filepath = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(imageUri, filepath, null,
                     null, null);
             cursor.moveToFirst();
@@ -152,14 +176,13 @@ public class PostActivity extends AppCompatActivity {
     //Handle result of permission
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case PERMISSION_CODE_IMAGE:{
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        switch (requestCode) {
+            case PERMISSION_CODE_IMAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //Permission was granted
                     pickImage();
                     Log.d(TAG, "You have permission to open gallery");
-                }
-                else{
+                } else {
                     Toast.makeText(this, "Permission was denied", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "You don't have permission to open gallery");
                 }
@@ -167,11 +190,13 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-    //Intent for posting on Instagram as its given in the documentation
-    private void createInstagramIntent(String type, String mediaPath){
+
+    private void createPostStoryIntent(String type, String mediaPath, String pName) {
 
         // Create the new Intent using the 'Send' action.
         Intent share = new Intent(Intent.ACTION_SEND);
+        if (pName != null)
+            share.setPackage(pName);
 
         // Set the MIME type
         share.setType(type);

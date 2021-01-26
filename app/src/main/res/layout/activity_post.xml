@@ -8,16 +8,17 @@
 
     <Button
         android:id="@+id/buttonMakePost"
-        android:layout_width="125dp"
-        android:layout_height="61dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="120dp"
-        android:text="POST IT"
+        android:text="POST"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonPickImage" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonMakeStory"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/inputText"
@@ -63,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Twitter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonMakePost" />
@@ -86,4 +87,15 @@
         android:text="Instagram"
         app:layout_constraintBaseline_toBaselineOf="@+id/facebookCheckBox"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/buttonMakeStory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="STORY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPickImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>
