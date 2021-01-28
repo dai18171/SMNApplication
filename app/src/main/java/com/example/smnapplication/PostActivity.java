@@ -89,7 +89,7 @@ public class PostActivity extends AppCompatActivity {
                 }
                 else if (instagramCheckBox.isChecked() && facebookCheckBox.isChecked()){
                     String type = "image/*";
-                    createPostStoryIntent(type, filePath, null);
+                    createPostStoryIntent(type, filePath, "com.instagram.android");
                 }
 
                 Log.d(TAG, "Uploading story");
