@@ -19,7 +19,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import twitter4j.AsyncTwitter;
@@ -60,24 +63,6 @@ public class ShowPostsActivity extends AppCompatActivity {
 
         //Get Twitter Posts
         retrievePostsFromInstagramAndTwitter(searchingHashtag);
-
-        /*showPostsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = null;
-                Log.d(TAG, "Entering showing posts activity");
-
-                //Post clicked
-                RetrievedPosts postForDisplay = adapter.getItem(position);
-
-                //Start showing post details activity
-                intent = new Intent(ShowPostsActivity.this, ShowPostDetailsActivity.class);
-                intent.putExtra("postForDisplay", postForDisplay);
-                if (intent != null){
-                    startActivity(intent);
-                }
-            }
-        });*/
     }
 
 
@@ -121,9 +106,6 @@ public class ShowPostsActivity extends AppCompatActivity {
                             0,
                             status.getUser().getProfileImageURLHttps());
                     retrievedPosts.add(post);
-                    MyTaskParams params = new MyTaskParams(status, post);
-                    GetTwitterComments comments = new GetTwitterComments();
-                    comments.execute(params);
                 }
                 //Set custom adapter with the list of posts from both social media networks
                 runOnUiThread(new Runnable() {
@@ -198,7 +180,7 @@ public class ShowPostsActivity extends AppCompatActivity {
                 StringBuilder path = new StringBuilder();
                 path.append(id);
                 path.append("/top_media");
-                parameters.putString("fields", "media_type,media_url,like_count,comments_count,caption");
+                parameters.putString("fields", "media_type,media_url,like_count,comments_count,caption,timestamp");
                 parameters.putString("user_id", "17841445768120860");
                 HttpMethod method = HttpMethod.GET;
                 //Searching for the most popular posts which inlude the hashtag id on Instagram
@@ -234,7 +216,7 @@ public class ShowPostsActivity extends AppCompatActivity {
                                             0,
                                             commentsCount,
                                             null);
-                                    Log.d(TAG1, post.getContentImageUrl() + " " + post.getContent() + " " + post.getLikesCount() + " " + post.getCommentsCount() + " " + media_type);
+                                    //Log.d(TAG1, post.getContentImageUrl() + " " + post.getContent() + " " + post.getLikesCount() + " " + post.getCommentsCount() + " " + media_type);
                                     retrievedPosts.add(post);
                                 }
                             }
@@ -247,7 +229,6 @@ public class ShowPostsActivity extends AppCompatActivity {
                 }).executeAsync();
             }
         }).executeAsync();
-
     }
 
 }

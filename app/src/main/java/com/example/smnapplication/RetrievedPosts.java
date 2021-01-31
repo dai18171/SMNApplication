@@ -4,7 +4,9 @@ package com.example.smnapplication;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.net.ssl.SSLEngineResult;
@@ -17,8 +19,7 @@ This is a general class to handle the different posts coming from Twitter,
 Instagram, Facebook as one entity and put them in a general List.
  */
 public class RetrievedPosts implements Serializable {
-    List<Status> replies = new ArrayList<>();
-    private String source;
+    private final String source;
     private final String author;
     private final String username;
     private final String content;
@@ -38,7 +39,6 @@ public class RetrievedPosts implements Serializable {
         this.commentsCount = commentsCount;
         this.profileUrl = profileUrl;
         this.contentImageUrl = contentImageUrl;
-        this.replies = new ArrayList<>();
     }
 
     public String getAuthor() {
@@ -71,14 +71,6 @@ public class RetrievedPosts implements Serializable {
 
     public String getSource() {
         return source;
-    }
-
-    public List<Status> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<Status> replies) {
-        this.replies = replies;
     }
 
     public String getCommentsCount() {

@@ -5,46 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
-import org.json.JSONException;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
+
 import java.util.List;
 
-import twitter4j.StatusUpdate;
-import twitter4j.TwitterException;
-import twitter4j.UploadedMedia;
-
-import static androidx.core.content.ContextCompat.startActivity;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -89,7 +69,7 @@ public class PostActivity extends AppCompatActivity {
                 }
                 else if (instagramCheckBox.isChecked() && facebookCheckBox.isChecked()){
                     String type = "image/*";
-                    createPostStoryIntent(type, filePath, null);
+                    createPostStoryIntent(type, filePath, "com.instagram.android");
                 }
 
                 Log.d(TAG, "Uploading story");
@@ -102,6 +82,11 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String message = inputText.getText().toString();
                 //Cheking which checkboxes are checked
+                if (instagramCheckBox.isChecked()) {
+                    //Making a post for Instagram
+                    String type = "image/*";
+                    createPostStoryIntent(type, filePath, "com.instagram.android");
+                }
                 if (twitterCheckBox.isChecked()) {
                     //Making a post for twitter
                     PostOnTwitter aTwitterPost = new PostOnTwitter();
@@ -111,11 +96,6 @@ public class PostActivity extends AppCompatActivity {
                     //Making a post for facebook
                     PostOnFacebook aFacebookPost = new PostOnFacebook();
                     aFacebookPost.postOnFacebook(message, filePath);
-                }
-                if (instagramCheckBox.isChecked()) {
-                    //Making a post for Instagram
-                    String type = "image/*";
-                    createPostStoryIntent(type, filePath, "com.instagram.android");
                 }
                 //Showing progress
                 Toast.makeText(PostActivity.this, "Uploading your post.", Toast.LENGTH_SHORT).show();

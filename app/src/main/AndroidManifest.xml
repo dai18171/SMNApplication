@@ -32,10 +32,12 @@
             </meta-data>
         </provider>
 
-        <activity android:name=".ShowPostDetailsActivity"></activity>
-        <activity android:name=".ShowPostsActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".PostActivity" />
+        <activity android:name=".ShowPostsActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".SearchActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".PostActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

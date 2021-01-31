@@ -80,6 +80,9 @@ public class CustomPostsAdapter extends ArrayAdapter<RetrievedPosts> {
             viewHolder.commentsCountText.setVisibility(View.INVISIBLE);
             viewHolder.sharesImage.setVisibility(View.VISIBLE);
             viewHolder.sharesCountText.setVisibility(View.VISIBLE);
+            viewHolder.profileImage.setVisibility(View.VISIBLE);
+            viewHolder.authorText.setVisibility(View.VISIBLE);
+            viewHolder.userText.setVisibility(View.VISIBLE);
         }
         else{
             viewHolder.commentsCountText.setText(post.getCommentsCount());
