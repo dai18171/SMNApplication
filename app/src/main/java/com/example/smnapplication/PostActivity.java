@@ -94,8 +94,9 @@ public class PostActivity extends AppCompatActivity {
                 }
                 if (facebookCheckBox.isChecked()) {
                     //Making a post for facebook
-                    PostOnFacebook aFacebookPost = new PostOnFacebook();
-                    aFacebookPost.postOnFacebook(message, filePath);
+                    PostOnFacebook aFacebookPost = new PostOnFacebook(message, filePath);
+                    Thread thread = new Thread(aFacebookPost);
+                    thread.start();
                 }
                 //Showing progress
                 Toast.makeText(PostActivity.this, "Uploading your post.", Toast.LENGTH_SHORT).show();

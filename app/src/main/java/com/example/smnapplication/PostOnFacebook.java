@@ -16,11 +16,18 @@ import com.facebook.HttpMethod;
 import java.io.ByteArrayOutputStream;
 
 
-public class PostOnFacebook {
+public class PostOnFacebook implements Runnable{
     private static final String TAG1 = "Facebook";
     private static final String FACEBOOK_PAGE_TOKEN = BuildConfig.FacebookPageToken;
+    private String message;
+    private String filepath;
 
-    public void postOnFacebook(@Nullable String message, @Nullable String filepath){
+    public PostOnFacebook(@Nullable String message, @Nullable String filepath) {
+        this.message = message;
+        this.filepath = filepath;
+    }
+
+    public void postOnFacebook(){
         //Creating the page access token
         AccessToken accessToken = new AccessToken(FACEBOOK_PAGE_TOKEN,
                 "1095990997504855",
@@ -63,5 +70,10 @@ public class PostOnFacebook {
                 }
             }).executeAsync();
         }
+    }
+
+    @Override
+    public void run() {
+        postOnFacebook();
     }
 }
