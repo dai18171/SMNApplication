@@ -64,12 +64,10 @@ public class PostActivity extends AppCompatActivity {
                     createPostStoryIntent(type, filePath, "com.facebook.katana");
                 }
                 else if (instagramCheckBox.isChecked() && !facebookCheckBox.isChecked()){
-                    String type = "image/*";
-                    createPostStoryIntent(type, filePath, "com.instagram.android");
+                    InstagramPostStory(filePath);
                 }
                 else if (instagramCheckBox.isChecked() && facebookCheckBox.isChecked()){
-                    String type = "image/*";
-                    createPostStoryIntent(type, filePath, "com.instagram.android");
+                    InstagramPostStory(filePath);
                 }
 
                 Log.d(TAG, "Uploading story");
@@ -84,8 +82,7 @@ public class PostActivity extends AppCompatActivity {
                 //Cheking which checkboxes are checked
                 if (instagramCheckBox.isChecked()) {
                     //Making a post for Instagram
-                    String type = "image/*";
-                    createPostStoryIntent(type, filePath, "com.instagram.android");
+                    InstagramPost(filePath);
                 }
                 if (twitterCheckBox.isChecked()) {
                     //Making a post for twitter
@@ -204,5 +201,39 @@ public class PostActivity extends AppCompatActivity {
             this.grantUriPermission(packageName, imageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
         startActivity(chooser);
+    }
+
+    public void InstagramPostStory(String mediaPath){
+        Intent myPhoto = new Intent("com.instagram.share.ADD_TO_STORY");
+        // Create the URI from the media
+        File media = new File(mediaPath);
+        //Uri uri = Uri.fromFile(media);
+        Uri imageUri = FileProvider.getUriForFile(
+                PostActivity.this,
+                "com.example.smnapplication.provider",
+                media);
+        myPhoto.setPackage("com.instagram.android");
+        myPhoto.setType("image/*");
+        myPhoto.setDataAndType(imageUri, "image/*");
+        myPhoto.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        myPhoto.putExtra(Intent.EXTRA_STREAM, imageUri);
+        startActivity(myPhoto);
+    }
+
+    public void InstagramPost(String mediaPath){
+        Intent myPhoto = new Intent("com.instagram.share.ADD_TO_FEED");
+        // Create the URI from the media
+        File media = new File(mediaPath);
+        //Uri uri = Uri.fromFile(media);
+        Uri imageUri = FileProvider.getUriForFile(
+                PostActivity.this,
+                "com.example.smnapplication.provider",
+                media);
+        myPhoto.setPackage("com.instagram.android");
+        myPhoto.setType("image/*");
+        myPhoto.setDataAndType(imageUri, "image/*");
+        myPhoto.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        myPhoto.putExtra(Intent.EXTRA_STREAM, imageUri);
+        startActivity(myPhoto);
     }
 }
